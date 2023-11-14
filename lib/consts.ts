@@ -1,0 +1,1 @@
+export const BUCKET_URL = "gs://soundriser-3d7b2.appspot.com"
