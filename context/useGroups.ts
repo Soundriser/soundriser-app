@@ -10,6 +10,6 @@ export function useGroups(email:any) {
         data: data?.data || [],
         isLoading,
         isError: error,
-        mutateWishList: mutate
+        mutateGroups: mutate
     }
 }
