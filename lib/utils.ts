@@ -11,3 +11,8 @@ export async function decryptFromMail(text:string) {
   return CryptoJS.AES.decrypt(fromBase64, process.env.MAIL_SECRET_KEY!).toString(CryptoJS.enc.Utf8);
 }
   
+export const getEmailFromStorage = () => {
+  const queryParams = new URLSearchParams(window.location.search);
+  const email = queryParams.get("c") || sessionStorage.getItem("c");
+  return email;
+}

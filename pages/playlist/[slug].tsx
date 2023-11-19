@@ -2,7 +2,7 @@ import { Playlist } from '@lib/player/types'
 import PlaylistView from '@components/Playlist/PlaylistView'
 import { GetStaticPropsContext } from 'next'
 import { createClient } from '@supabase/supabase-js'
-import { decryptFromMail, encryptFromMail } from '@lib/utils'
+import { decryptFromMail, getEmailFromStorage } from '@lib/utils'
 import axios from "axios"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -143,8 +143,7 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
 
         //DJ
         try {
-          const queryParams = new URLSearchParams(window.location.search);
-          const email = queryParams.get("c") || sessionStorage.getItem("c");
+          const email = getEmailFromStorage();
           axios.post("/api/signal-download",{url, slug: data?.slug, email, format, track_id})
         } catch (error) {
           //silent catch

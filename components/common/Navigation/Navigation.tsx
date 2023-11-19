@@ -33,8 +33,7 @@ function Navigation() {
         </NavigationMenu.Item> */}
         <NavigationMenu.Item>
           <NavigationMenu.Trigger className={cn(s.theme_btn)}>
-            <ThemeIcon />
-            <span className={cn(s.theme_btn_txt)}>Inspirations</span>
+            <span className={cn(s.theme_btn_txt)}>Your Inspirations</span>
             <DownIcon />
           </NavigationMenu.Trigger>
           <NavigationMenu.Content>
