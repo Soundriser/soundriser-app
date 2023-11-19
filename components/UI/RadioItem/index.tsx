@@ -6,7 +6,7 @@ import s from './RadioItem.module.css'
 
 interface props {
  value : string
- variant?: 'white' | 'dark' | 'blue' | 'black' | 'violet' | 'pink' | 'spotify'
+ variant?: any
 }
 
 
@@ -21,23 +21,16 @@ const  RadioItem : React.FC<props> = (props) => {
     const rootClassName = cn(
       s.root,
       {
-        [s.dark]: variant === 'dark',
-        [s.white]: variant === 'white',
-        [s.blue]: variant === 'blue',
-        [s.black]: variant === 'black',
-        [s.violet]: variant === 'violet',
-        [s.pink]: variant === 'pink',
-        [s.spotify]: variant === 'spotify',
+        [s.dark]: true
       
       }
     )
     
   return (
-    <RadioGroup.Item value = {value}  className={rootClassName}  > 
+    <RadioGroup.Item value = {value} title='Test'  className={rootClassName}  > 
         <RadioGroup.Indicator className="absolute">
-            <CheckIcon></CheckIcon>
+            <span>{value}</span>
         </RadioGroup.Indicator>
-        {/* {value} */}
     </RadioGroup.Item>
   )
 }

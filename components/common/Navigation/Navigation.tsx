@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { Button } from '../../UI/Button'
 import { GithubIcon } from '../../Icons'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
-import ThemeSelect from '../../UI/ThemeSelect/ThemeSelect'
+import ThemeSelect from '../../UI/Inspirations/Inspirations'
 import { Logo, DownIcon, ThemeIcon } from '../../Icons'
 import s from './Navigation.module.css'
 import cn from 'clsx'
@@ -12,6 +12,7 @@ function Navigation() {
   return (
     <NavigationMenu.Root className={cn(s.root)}>
       <NavigationMenu.List className={cn(s.list)}>
+
         <NavigationMenu.Item className={cn(s.logo)}>
           <NavigationMenu.Link>
             <Link href="/">
@@ -30,16 +31,16 @@ function Navigation() {
             </Link>
           </NavigationMenu.Link>
         </NavigationMenu.Item> */}
-        {/* <NavigationMenu.Item>
+        <NavigationMenu.Item>
           <NavigationMenu.Trigger className={cn(s.theme_btn)}>
             <ThemeIcon />
-            <span className={cn(s.theme_btn_txt)}>Change Theme</span>
+            <span className={cn(s.theme_btn_txt)}>Inspirations</span>
             <DownIcon />
           </NavigationMenu.Trigger>
           <NavigationMenu.Content>
             <ThemeSelect></ThemeSelect>
           </NavigationMenu.Content>
-        </NavigationMenu.Item> */}
+        </NavigationMenu.Item>
       </NavigationMenu.List>
 
       {/* NavigationMenu.Content will be rendered here when active */}
