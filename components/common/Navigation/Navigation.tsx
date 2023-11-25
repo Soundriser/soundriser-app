@@ -15,11 +15,11 @@ function Navigation() {
 
         <NavigationMenu.Item className={cn(s.logo)}>
           <NavigationMenu.Link>
-            <Link href="/">
+            {/* <Link href="/">
               <a href="/" style={{marginTop: 8, display:"block"}}>
-                <Logo></Logo>
               </a>
-            </Link>
+            </Link> */}
+            <Logo></Logo>
           </NavigationMenu.Link>
         </NavigationMenu.Item>
         {/* <NavigationMenu.Item>
