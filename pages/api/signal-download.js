@@ -21,15 +21,14 @@ export default async function signalDownload(req, res) {
         console.log("email", email)
         console.log("format", format)
         console.log("track_id", track_id)
+
+        if(!url_download || !descryptedSlug || !email || !format || !track_id){
+            return res.status(400).json({msg:"data not valid"});
+        }
+
+        await supabase.from('Download').insert({ email, "downloaded_at": new Date().toISOString(), format, track_id });
+        return res.status(200).json({});
     } catch (error) {
         return res.status(200).json({msg: "skip, email not valid"});
     }
-
-
-    if(!url_download || !descryptedSlug || !email || !format || !track_id){
-        return res.status(400).json({msg:"data not valid"});
-    }
-
-    await supabase.from('Download').insert({ email, "downloaded_at": new Date().toISOString(), format, track_id });
-    return res.status(200).json({});
 }
