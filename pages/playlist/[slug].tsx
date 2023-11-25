@@ -15,7 +15,7 @@ export async function getServerSideProps({params}:any) {
   const firebaseBucket = storage.bucket(BUCKET_URL);
   await firebaseBucket.setCorsConfiguration([
         {
-          origin: ['http://localhost:3000', "https://soundriser-app.vercel.app", "https://*.soundriser.app", "https://soundriser.app"],
+          origin: [process.env.NODE_ENV==="development" ? 'http://localhost:3000' : "https://*.soundriser.app"],
           responseHeader: ['Content-Type'],
           method: ['GET', 'HEAD', 'DELETE'],
           maxAgeSeconds: 3600,
