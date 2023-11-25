@@ -55,12 +55,12 @@ const PlaylistView: React.FC<props> = (props) => {
   return (
     <div>
       <div className="flex flex-col mb-8 items-start">
-        <Link href="/">
+        {/* <Link href="/">
           <Button variant="ghost">
             <LeftArrowIcon />
             Back to home
           </Button>
-        </Link>
+        </Link> */}
       </div>
       <Grid variant="B">
         <PlayListHeader
