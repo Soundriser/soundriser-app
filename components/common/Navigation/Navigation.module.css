@@ -17,5 +17,5 @@
 }
 
 .theme_btn_txt {
-  @apply hidden text-sm sm:block;
+  @apply text-sm block;
 }

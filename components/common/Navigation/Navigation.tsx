@@ -1,10 +1,7 @@
 import React from 'react'
-import Link from 'next/link'
-import { Button } from '../../UI/Button'
-import { GithubIcon } from '../../Icons'
 import * as NavigationMenu from '@radix-ui/react-navigation-menu'
 import ThemeSelect from '../../UI/Inspirations/Inspirations'
-import { Logo, DownIcon, ThemeIcon } from '../../Icons'
+import { Logo, DownIcon } from '../../Icons'
 import s from './Navigation.module.css'
 import cn from 'clsx'
 
