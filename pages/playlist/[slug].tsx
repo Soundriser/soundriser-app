@@ -116,6 +116,8 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
           `
         }
       </script>
+      <script id="cookieyes" type="text/javascript" src="https://cdn-cookieyes.com/client_data/e1fdd1c41235629d0f76a892/script.js"></script>       
+
       </Head>
       <h1 className='text-[36px] mb-8 flex items-baseline relative'><strong className='text-[#F99940]'>{"Soundriser"}</strong>
         <span className='font-light text-[16px] ml-2 text-[#6b755a]'>{phrases.map((text, index) => (
