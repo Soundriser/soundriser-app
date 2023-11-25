@@ -102,7 +102,20 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
         <title>{`${data.playlist?.title} | Soundriser`}</title>
         <meta name="description" content={data.playlist?.description} />
         <link rel="icon" href="/favicon.ico" />
-        <Script src='https://play.soundriser.app/js/hotjar.js'/>
+      <script>
+        {
+          `
+          (function(h,o,t,j,a,r){
+            h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+            h._hjSettings={hjid:3753807,hjsv:6};
+            a=o.getElementsByTagName('head')[0];
+            r=o.createElement('script');r.async=1;
+            r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+            a.appendChild(r);
+        })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+          `
+        }
+      </script>
       </Head>
       <h1 className='text-[36px] mb-8 flex items-baseline relative'><strong className='text-[#F99940]'>{"Soundriser"}</strong>
         <span className='font-light text-[16px] ml-2 text-[#6b755a]'>{phrases.map((text, index) => (
