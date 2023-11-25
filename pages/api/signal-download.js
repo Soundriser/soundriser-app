@@ -6,9 +6,8 @@ export default async function signalDownload(req, res) {
         return res.status(400).json({msg: "method now allowed"});
     }
 
+    const supabase = createClient(process.env.SUPABASE_URL, process.env.SERVICE_ROLE)
     try {
-        const supabase = createClient(process.env.SUPABASE_URL, process.env.SERVICE_ROLE)
-
         const url_download = req?.body?.url;
         const slug_release = req?.body?.slug;
         const format = req?.body?.format;
