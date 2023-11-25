@@ -2,9 +2,9 @@ import { decryptFromMail} from '@lib/utils'
 import { createClient } from '@supabase/supabase-js'
 
 export default async function signalDownload(req, res) {
-    if(req.method!=="POST"){
-        return res.status(400).json({msg: "method now allowed"});
-    }
+    // if(req.method!=="POST"){
+    //     return res.status(400).json({msg: "method now allowed"});
+    // }
 
     const supabase = createClient(process.env.SUPABASE_URL, process.env.SERVICE_ROLE)
     try {
