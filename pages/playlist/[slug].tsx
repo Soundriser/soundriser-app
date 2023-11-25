@@ -102,7 +102,7 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
         <title>{`${data.playlist?.title} | Soundriser`}</title>
         <meta name="description" content={data.playlist?.description} />
         <link rel="icon" href="/favicon.ico" />
-        <Script src='/js/hotjar.js'/>
+        <Script src='https://play.soundriser.app/js/hotjar.js'/>
       </Head>
       <h1 className='text-[36px] mb-8 flex items-baseline relative'><strong className='text-[#F99940]'>{"Soundriser"}</strong>
         <span className='font-light text-[16px] ml-2 text-[#6b755a]'>{phrases.map((text, index) => (
