@@ -100,7 +100,7 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
         <span className='font-light text-[16px] ml-2 text-[#6b755a]'>{phrases.map((text, index) => (
         <div
           key={index}
-          className={`word absolute font-light opacity-100 transition-all delay-1000 bottom-[5px] pl-[5px] ${
+          className={`word hidden md:block absolute font-light opacity-100 transition-all delay-1000 bottom-[5px] pl-[5px] ${
             index === indexPhrase ? 'active' : ''
           }`}
         >
