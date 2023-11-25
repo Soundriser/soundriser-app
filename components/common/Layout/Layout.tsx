@@ -46,7 +46,7 @@ const Layout: React.FC<Layoutprops> = (props) => {
             {/* 
           <Playlist />
           */}
-            <Player />
+            {/* <Player /> */}
           </div>
         </ThemeProvider>
       </ApolloProvider>
