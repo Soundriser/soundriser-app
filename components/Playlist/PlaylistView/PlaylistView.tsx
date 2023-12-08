@@ -15,10 +15,11 @@ export interface props {
   indexTrackLoading: number | null;
   formatTrackLoading: string | null;
   onSubmitFeedback:(text:string)=>void;
+  artist: any;
 }
 
 const PlaylistView: React.FC<props> = (props) => {
-  const { playlist, className, children, indexTrackLoading, formatTrackLoading, onSubmitFeedback, ...rest } = props
+  const { playlist, className, children, indexTrackLoading, artist, formatTrackLoading, onSubmitFeedback, ...rest } = props
 
   const state = usePlayerState()
   const [feedback, setFeedback] = useState("");
@@ -41,7 +42,6 @@ const PlaylistView: React.FC<props> = (props) => {
     } else {
       player.setQueue(playlist, 0)
     }
-    console.log(state.playlist)
   }
 
   const handlePlay = (index?: number) => {
@@ -74,10 +74,10 @@ const PlaylistView: React.FC<props> = (props) => {
           artist_name={playlist?.artist_name}
           description={playlist.description}
           changePlaylist={() => handlePlay()}
+          artist={artist}
         />
         <div className="flex flex-col gap-6">
           {playlist.tracks.map((track: Track, index: number) => {
-            console.log({track})
             return(
               <TrackCard
               onClick={() => handlePlay(index)}

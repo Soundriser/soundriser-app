@@ -39,7 +39,6 @@ export async function getServerSideProps({params}:any) {
     const { count, error } = await supabase.from('Download').select('*', { count: 'exact' }).eq('track_id', Track.id)
     
     const filepathWav = `music/${Track.firebase_filename}`;
-    console.log("filepathWav",filepathWav)
     const download_url_wav = await firebaseBucket.file(filepathWav).getSignedUrl({
       action: 'read',
       expires: Date.now() + 60 * 10000, // URL expires in 10 minute
@@ -48,8 +47,12 @@ export async function getServerSideProps({params}:any) {
     TracksDownloadable.push({...Track, count: count||0, download_url_mp3: resultDwnl?.data?.[0]?.signedUrl, download_url_wav: download_url_wav?.[0], preview_url: resultListen?.data?.[0]?.signedUrl})
   }
   const release = Releases?.[0];
+  let {data: Artists} = await supabase.from('Artists').select("*").eq("id", release?.artist_id)
+  const artist = Artists?.[0]
+
   const data = {
     ...{slug: releaseId},
+    artist: artist ? artist : {},
     playlist: {
       ...(release || {}),
       ...{id:null,artist_id:null},
@@ -68,12 +71,12 @@ export async function getServerSideProps({params}:any) {
 
 const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
   const { playlist, data, slug, ...rest } = props
-
   const router = useRouter();
   const [indexTrackLoading, setIndexTrackLoading] = useState<number|null>(null);
   const [formatTrackLoading, setFormatTrackLoading] = useState<string|null>(null);
   const phrases = ["Where Music Speaks Louder Than Words","Exclusive Promo Service", "No Feedback Required"]
   const [indexPhrase, setIndexPhrase] = useState<number>(0);
+  const artist = props?.data?.artist
 
   useEffect(()=>{
     const queryParams = new URLSearchParams(window.location.search);
@@ -88,7 +91,6 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
     const timer = setInterval(() => {
       setIndexPhrase(_ => {
         const currIndex = phrases.indexOf(phrases[_]);
-        console.log("currIndex",currIndex)
         return currIndex===phrases?.length-1 ? 0 : phrases.indexOf(phrases[_])+1
       })
     }, 3000);
@@ -132,6 +134,7 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
       ))}</span>
       </h1>
       <PlaylistView
+      artist={artist}
       formatTrackLoading={formatTrackLoading}
       indexTrackLoading={indexTrackLoading}
       playlist={data.playlist}
