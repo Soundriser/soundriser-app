@@ -84,10 +84,13 @@ body {
   background-color: var(--background-primary);
   color: var(--text-base);
   padding: 0;
-  padding-bottom: 64px;
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Helvetica, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+}
+footer{
+  padding-top: 64px;
+  padding-bottom: 12px;
 }
 
 a {

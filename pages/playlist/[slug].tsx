@@ -135,6 +135,14 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
       formatTrackLoading={formatTrackLoading}
       indexTrackLoading={indexTrackLoading}
       playlist={data.playlist}
+      onSubmitFeedback={(feedback:string)=>{
+        try {
+          const email = getEmailFromStorage();
+          axios.post("/api/send-feedback",{email, feedback, slug: data?.slug})
+        } catch (error) {
+          
+        }
+      }}
       handleDowload={async(url:string, format: "mp3" | "wav", track_id:number, track_name:string, index:number)=>{
         if(format==="mp3"){
           const link = document.createElement('a')

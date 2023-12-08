@@ -6,6 +6,7 @@ import { Button, Grid } from '@components/UI'
 import player, { usePlayerState } from '@lib/player'
 import { Playlist, Track } from '@lib/player/types'
 import Link from 'next/link'
+import { useState } from 'react'
 
 export interface props {
   playlist: Playlist
@@ -13,12 +14,15 @@ export interface props {
   handleDowload:(filename:string, format: "mp3" | "wav", track_id: number, trak_name: string, index: number)=>void;
   indexTrackLoading: number | null;
   formatTrackLoading: string | null;
+  onSubmitFeedback:(text:string)=>void;
 }
 
 const PlaylistView: React.FC<props> = (props) => {
-  const { playlist, className, children, indexTrackLoading, formatTrackLoading, ...rest } = props
+  const { playlist, className, children, indexTrackLoading, formatTrackLoading, onSubmitFeedback, ...rest } = props
 
   const state = usePlayerState()
+  const [feedback, setFeedback] = useState("");
+  const [feedbackIsSent, setFeedbackIsSent] = useState(false);
 
   const PlayTrack = (index: number) => {
     if (state.playing && index === state.currentTrackIndex) {
@@ -95,7 +99,30 @@ const PlaylistView: React.FC<props> = (props) => {
               formatTrackLoading={formatTrackLoading}
             />
             )
-          })}
+          }).concat([
+              feedbackIsSent ? 
+                <span className='mr-2 text-[14px] text-[#fea755]'>{"Thank you for your support 🚀"}</span>
+              :
+              <div>
+                <label htmlFor="message" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your feedback (optional)</label>
+                <textarea id="message" 
+                value={feedback}
+                onChange={(e)=>{
+                  setFeedback(e?.target?.value);
+                }}
+                rows={4} className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Feedback is not required so write if you want to communicate something real to the artist"></textarea>
+                
+                  <button onClick={async()=>{
+                    if(feedback){
+                      onSubmitFeedback(feedback)
+                      setFeedbackIsSent(true)
+                    }
+                  }} disabled={!!!feedback} type="button" 
+                  className="mt-3 disabled:opacity-50 disabled:hover:bg-transparent disabled:hover:text-[#F99940] text-[#F99940] hover:bg-[#F99940] hover:text-black transition-all border-[#F99940] border-[1px] border-solid bg-transparent focus:outline-none focus:ring-4  font-medium rounded-full text-sm px-5 py-2.5 text-center me-2 mb-2 dark:focus:ring-yellow-900">
+                    Send
+                  </button>
+              </div>
+          ])}
         </div>
       </Grid>
       <div className='grid mt-12'>
