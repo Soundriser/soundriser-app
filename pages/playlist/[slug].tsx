@@ -10,8 +10,9 @@ import admin from './../../lib/firebase'
 import { BUCKET_URL } from '@lib/consts'
 import Head from 'next/head'
 import Script from 'next/script'
+import Smartlook from 'smartlook-client'
 
-export async function getServerSideProps({params}:any) {
+export async function getServerSideProps({params, query}:any) {
   const releaseId = params?.slug!
   const storage = admin.storage()
   const firebaseBucket = storage.bucket(BUCKET_URL);
@@ -25,6 +26,7 @@ export async function getServerSideProps({params}:any) {
       ]);
 
   console.log("[START_RELEASE] " + releaseId)
+  const emailCurrentDj = await decryptFromMail(query?.c) 
 
   const slug = await decryptFromMail(releaseId) 
   const descryptedSlug = Number(slug);
@@ -51,6 +53,7 @@ export async function getServerSideProps({params}:any) {
   const artist = Artists?.[0]
 
   const data = {
+    emailCurrentDj,
     ...{slug: releaseId},
     artist: artist ? artist : {},
     playlist: {
@@ -85,6 +88,21 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
       sessionStorage.setItem("c",queryParams.get("c")||"")
     }
   },[router.asPath])
+
+  useEffect(() => {
+    const setupUserSmartlook = async () => {
+      try {
+        const resultSL = await Smartlook.identify(props?.data?.emailCurrentDj, {
+          "email": props?.data?.emailCurrentDj,
+          "releaseTitle": data.playlist?.title,
+          "releaseArtist": artist?.name
+        })
+      } catch (error) {
+        console.log("[ERROR IDENTIFY SMARTLOOK]", error)
+      }
+    }
+    setupUserSmartlook()
+  }, [])
 
   useEffect
   useEffect(() => {
