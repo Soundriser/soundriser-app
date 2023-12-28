@@ -5,6 +5,20 @@
 .img {
   @apply rounded-3xl;
 }
+.small{
+  @apply object-cover;
+}
+.artist_name{
+  @apply text-base;
+  color: var(--accent-primary);
+}
+.content_info{
+  @apply flex flex-col;
+}
+.genere{
+  @apply mr-2 text-xs;
+  color: var(--text-secondary);
+}
 
 .title {
   @apply text-3xl font-medium text-center tracking-tight md:max-w-sm md:text-left;

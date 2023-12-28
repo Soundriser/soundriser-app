@@ -4,6 +4,7 @@ import ThemeSelect from '../../UI/Inspirations/Inspirations'
 import { Logo, DownIcon } from '../../Icons'
 import s from './Navigation.module.css'
 import cn from 'clsx'
+import Link from 'next/link'
 
 function Navigation() {
   return (
@@ -12,11 +13,13 @@ function Navigation() {
 
         <NavigationMenu.Item className={cn(s.logo)}>
           <NavigationMenu.Link>
-            {/* <Link href="/">
-              <a href="/" style={{marginTop: 8, display:"block"}}>
+            <Link href="/">
+              <a href='#' onClick={()=>{
+                window.location.href = "/"+window.location.search
+              }} style={{marginTop: 8, display:"block"}}>
+              <Logo></Logo>
               </a>
-            </Link> */}
-            <Logo></Logo>
+            </Link>
           </NavigationMenu.Link>
         </NavigationMenu.Item>
         {/* <NavigationMenu.Item>

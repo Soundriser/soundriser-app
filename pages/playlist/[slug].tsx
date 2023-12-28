@@ -2,7 +2,7 @@ import { Playlist } from '@lib/player/types'
 import PlaylistView from '@components/Playlist/PlaylistView'
 import { GetStaticPropsContext } from 'next'
 import { createClient } from '@supabase/supabase-js'
-import { decryptFromMail, getEmailFromStorage } from '@lib/utils'
+import { decryptFromMail, encryptFromMail, getEmailFromStorage } from '@lib/utils'
 import axios from "axios"
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
@@ -11,6 +11,7 @@ import { BUCKET_URL } from '@lib/consts'
 import Head from 'next/head'
 import Script from 'next/script'
 import Smartlook from 'smartlook-client'
+import { PlaylistCard } from '@components/Playlist/PlaylistCard'
 
 export async function getServerSideProps({params, query}:any) {
   const releaseId = params?.slug!
@@ -33,6 +34,14 @@ export async function getServerSideProps({params, query}:any) {
   const supabase = createClient(process.env.SUPABASE_URL!, process.env.SERVICE_ROLE!)
   let {data: Releases} = await supabase.from('Releases').select("*").eq("id", descryptedSlug)
   let {data: Tracks} = await supabase.from('Tracks').select("*").eq("release_id", descryptedSlug).order('id')
+  let {data: OtherReleases} = await supabase.from('Releases').select("*").neq("id", descryptedSlug).or(`draft.eq.false${process.env.NODE_ENV==="development" ? ",draft.eq.true" : ""}`).order("id",{"ascending":false})
+
+  let AllReleases:any[] = [];
+  for (const r of OtherReleases||[]) {
+    const id = await encryptFromMail(r.id);
+    const artist_id = await encryptFromMail(r.artist_id)
+    AllReleases.push({...r, id , artist_id });
+  }
 
   let TracksDownloadable = []
   for (const Track of Tracks||[]) {
@@ -53,6 +62,7 @@ export async function getServerSideProps({params, query}:any) {
   const artist = Artists?.[0]
 
   const data = {
+    AllReleases,
     emailCurrentDj,
     ...{slug: releaseId},
     artist: artist ? artist : {},
@@ -72,7 +82,7 @@ export async function getServerSideProps({params, query}:any) {
 }
 
 
-const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
+const Playlist = (props: { playlist: Playlist; data: any, slug: any, AllReleases:any }) => {
   const { playlist, data, slug, ...rest } = props
   const router = useRouter();
   const [indexTrackLoading, setIndexTrackLoading] = useState<number|null>(null);
@@ -80,12 +90,15 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
   const phrases = ["Where Music Speaks Louder Than Words","Exclusive Promo Service", "No Feedback Required"]
   const [indexPhrase, setIndexPhrase] = useState<number>(0);
   const artist = props?.data?.artist
+  const [djEmail, setDjEmail] = useState("");
 
+  console.log({props})
   useEffect(()=>{
     const queryParams = new URLSearchParams(window.location.search);
     const email = queryParams.get("c");
     if(email){
-      sessionStorage.setItem("c",queryParams.get("c")||"")
+      sessionStorage.setItem("c",email||"")
+      setDjEmail(email)
     }
   },[router.asPath])
 
@@ -200,6 +213,28 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any }) => {
           //silent catch
         }
       }}></PlaylistView>
+
+      <div className="mt-10">
+          <h1 className="text-2xl font-medium">Latest Album</h1>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
+            {props?.data?.AllReleases.map((playlist: any, index:number) => {
+              console.log({playlist})
+              return(
+                <PlaylistCard
+                key={playlist.id}
+                id={playlist.id}
+                title={playlist.title}
+                img={playlist.image}
+                c={djEmail}
+                isSmall={true}
+                artist_name={playlist.artist_name}
+                generi={playlist.generi}
+                hidePlay={true}
+              />
+              )
+            })}
+          </div>
+        </div>
     </>
   )
 }

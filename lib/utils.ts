@@ -12,7 +12,12 @@ export async function decryptFromMail(text:string) {
 }
   
 export const getEmailFromStorage = () => {
-  const queryParams = new URLSearchParams(window.location.search);
-  const email = queryParams.get("c") || sessionStorage.getItem("c");
-  return email;
+  if(typeof window !== "undefined"){
+    //@ts-ignore
+    const queryParams = new URLSearchParams(window!.location.search);
+    const email = queryParams?.get("c") || sessionStorage?.getItem("c");
+    return email;
+  }else{
+    return ""
+  }
 }
