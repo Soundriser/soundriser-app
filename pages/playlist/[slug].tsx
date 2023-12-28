@@ -214,6 +214,8 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any, AllReleases
         }
       }}></PlaylistView>
 
+      {
+        props?.data?.AllReleases?.length ?
       <div className="mt-10">
           <h1 className="text-2xl font-medium">Latest Album</h1>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-16">
@@ -235,6 +237,8 @@ const Playlist = (props: { playlist: Playlist; data: any, slug: any, AllReleases
             })}
           </div>
         </div>
+        : null 
+      }
     </>
   )
 }
