@@ -7,7 +7,7 @@ import { encryptFromMail } from '@lib/utils'
 
 export async function getStaticProps() {
   const supabase = createClient(process.env.SUPABASE_URL!, process.env.SERVICE_ROLE!)
-  let { data: Releases } = await supabase.from('Releases').select("*")
+  let { data: Releases } = await supabase.from('Releases').select("*").eq("draft", false)
   let { data: Artists } = await supabase.from('Artists').select("*")
 
   let AllReleases:any[] = [];
